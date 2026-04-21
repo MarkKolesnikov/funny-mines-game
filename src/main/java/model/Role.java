@@ -2,5 +2,7 @@ package model;
 
 public enum Role {
 
-    GUESSER, MINER
+    GUESSER,
+    MINER,
+    EXPLAINER
 }

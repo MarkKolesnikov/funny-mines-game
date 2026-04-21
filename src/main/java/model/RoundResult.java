@@ -2,5 +2,6 @@ package model;
 
 public enum RoundResult {
 
-    WORD_GUESSED, ABANDONED
+    WORD_GUESSED,
+    ABANDONED
 }
