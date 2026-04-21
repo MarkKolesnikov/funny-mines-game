@@ -1,9 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static model.RoundStatus.PLACING_MINES;
 
@@ -14,6 +11,8 @@ public class Round {
     private RoundStatus status = PLACING_MINES;
     private RoundResult result;
     private String secretWord;
+    private UUID guesserId;
+    private UUID hintGiverId;
     private Map<UUID, Role> roles;
     private List<Mine> mines = new ArrayList<>();
 
@@ -22,6 +21,10 @@ public class Round {
         this.roundNumber = roundNumber;
         this.roles = roles;
         this.secretWord = secretWord;
+    }
+
+    public void addMine (Mine mine) {
+        mines.add(mine);
     }
 
     public UUID getId() {
@@ -60,7 +63,19 @@ public class Round {
         this.result = result;
     }
 
-    public void addMine (Mine mine) {
-        mines.add(mine);
+    public UUID getGuesserId() {
+        return guesserId;
+    }
+
+    public void setGuesserId(UUID guesserId) {
+        this.guesserId = guesserId;
+    }
+
+    public UUID getHintGiverId() {
+        return hintGiverId;
+    }
+
+    public void setHintGiverId(UUID hintGiverId) {
+        this.hintGiverId = hintGiverId;
     }
 }
