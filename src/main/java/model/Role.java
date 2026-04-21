@@ -4,5 +4,5 @@ public enum Role {
 
     GUESSER,
     MINER,
-    EXPLAINER
+    HINT_GIVER
 }
