@@ -1,45 +1,23 @@
 package model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.*;
 
 import static model.GameStatus.WAITING;
 
+@Getter
 public class Game {
 
     private final UUID id = UUID.randomUUID();
+    @Setter
     private GameStatus status = WAITING;
     private final List<User> users = new ArrayList<>();
+    @Setter
     private Round currentRound;
     private final Map<UUID, Stats> leaderBoard = new HashMap<>();
 
-
-    public UUID getId() {
-        return id;
-    }
-
-    public GameStatus getStatus() {
-        return status;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public Round getCurrentRound() {
-        return currentRound;
-    }
-
-    public Map<UUID, Stats> getLeaderBoard() {
-        return leaderBoard;
-    }
-
-    public void setStatus(GameStatus status) {
-        this.status = status;
-    }
-
-    public void setCurrentRound(Round currentRound) {
-        this.currentRound = currentRound;
-    }
 
     public void addUser(User user) {
         users.add(user);
