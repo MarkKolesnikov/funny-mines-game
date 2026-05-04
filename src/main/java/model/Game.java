@@ -8,9 +8,9 @@ public class Game {
 
     private final UUID id = UUID.randomUUID();
     private GameStatus status = WAITING;
-    private List<User> users = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
     private Round currentRound;
-    private Map<UUID, Stats> leaderBoard = new HashMap<>();
+    private final Map<UUID, Stats> leaderBoard = new HashMap<>();
 
 
     public UUID getId() {

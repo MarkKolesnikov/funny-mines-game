@@ -7,14 +7,14 @@ import static model.RoundStatus.PLACING_MINES;
 public class Round {
 
     private final UUID id = UUID.randomUUID();
-    private int roundNumber;
+    private final int roundNumber;
     private RoundStatus status = PLACING_MINES;
     private RoundResult result;
-    private String secretWord;
+    private final String secretWord;
     private UUID guesserId;
     private UUID hintGiverId;
-    private Map<UUID, Role> roles;
-    private List<Mine> mines = new ArrayList<>();
+    private final Map<UUID, Role> roles;
+    private final List<Mine> mines = new ArrayList<>();
 
 
     public Round(int roundNumber,String secretWord, Map<UUID, Role> roles) {
