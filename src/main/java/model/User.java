@@ -1,10 +1,15 @@
 package model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
+@Getter
 public class User {
 
     private final UUID id;
+    @Setter
     private String login;
 
     public User(String login) {
@@ -12,15 +17,4 @@ public class User {
         this.login = login;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
 }

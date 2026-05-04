@@ -1,81 +1,35 @@
 package model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.*;
 
 import static model.RoundStatus.PLACING_MINES;
 
+@Getter
 public class Round {
-
     private final UUID id = UUID.randomUUID();
     private final int roundNumber;
+    @Setter
     private RoundStatus status = PLACING_MINES;
+    @Setter
     private RoundResult result;
     private final String secretWord;
+    @Setter
     private UUID guesserId;
+    @Setter
     private UUID hintGiverId;
     private final Map<UUID, Role> roles;
     private final List<Mine> mines = new ArrayList<>();
 
-
-    public Round(int roundNumber,String secretWord, Map<UUID, Role> roles) {
+    public Round(int roundNumber, String secretWord, Map<UUID, Role> roles) {
         this.roundNumber = roundNumber;
         this.roles = roles;
         this.secretWord = secretWord;
     }
 
-    public void addMine (Mine mine) {
+    public void addMine(Mine mine) {
         mines.add(mine);
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public int getRoundNumber() {
-        return roundNumber;
-    }
-
-    public RoundStatus getStatus() {
-        return status;
-    }
-
-    public RoundResult getResult() {
-        return result;
-    }
-
-    public Map<UUID, Role> getRoles() {
-        return roles;
-    }
-
-    public List<Mine> getMines() {
-        return mines;
-    }
-
-    public String getSecretWord() {
-        return secretWord;
-    }
-
-    public void setStatus(RoundStatus status) {
-        this.status = status;
-    }
-
-    public void setResult(RoundResult result) {
-        this.result = result;
-    }
-
-    public UUID getGuesserId() {
-        return guesserId;
-    }
-
-    public void setGuesserId(UUID guesserId) {
-        this.guesserId = guesserId;
-    }
-
-    public UUID getHintGiverId() {
-        return hintGiverId;
-    }
-
-    public void setHintGiverId(UUID hintGiverId) {
-        this.hintGiverId = hintGiverId;
     }
 }

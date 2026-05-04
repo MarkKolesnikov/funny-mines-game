@@ -1,12 +1,17 @@
 package model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
+@Getter
 public class Mine {
 
     private final UUID id = UUID.randomUUID();
     private final String label;
     private final UUID ownerUserId;
+    @Setter
     private boolean triggered = false;
 
 
@@ -15,23 +20,4 @@ public class Mine {
         this.label = label;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public UUID getOwnerUserId() {
-        return ownerUserId;
-    }
-
-    public boolean isTriggered() {
-        return triggered;
-    }
-
-    public void setTriggered(boolean triggered) {
-        this.triggered = triggered;
-    }
 }
