@@ -11,13 +11,10 @@ import static model.GameStatus.WAITING;
 public class Game {
 
     private final UUID id = UUID.randomUUID();
-    @Setter
-    private GameStatus status = WAITING;
+    @Setter private GameStatus status = WAITING;
     private final List<User> users = new ArrayList<>();
-    @Setter
-    private Round currentRound;
+    @Setter private Round currentRound;
     private final Map<UUID, Stats> leaderBoard = new HashMap<>();
-
 
     public void addUser(User user) {
         users.add(user);
