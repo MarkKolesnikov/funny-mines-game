@@ -9,6 +9,7 @@ import java.util.UUID;
 public class User {
 
     private final UUID id;
+
     @Setter
     private String login;
 

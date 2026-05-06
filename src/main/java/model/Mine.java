@@ -14,5 +14,6 @@ public class Mine {
     private final String label;
     private final UUID ownerUserId;
 
-    @Setter private Boolean triggered = false;
+    @Setter
+    private Boolean triggered = false;
 }
