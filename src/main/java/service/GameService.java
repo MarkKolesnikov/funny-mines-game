@@ -6,6 +6,7 @@ import exceptions.NotEnoughPlayersException;
 import model.Game;
 import model.GameStatus;
 import model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import store.GameStore;
 
@@ -32,7 +33,7 @@ public class GameService {
     }
 
     public Game joinGame(UUID gameId, String login) {
-        Game game = gameStore.findById(gameId);
+        Game game = gameStore.findById(gameId); //дублирование
 
         if (game == null) {
             throw new GameNotFoundException(gameId);
@@ -49,7 +50,7 @@ public class GameService {
     }
 
     public Game startGame(UUID gameId) {
-        Game game = gameStore.findById(gameId);
+        Game game = gameStore.findById(gameId); //дублирование
 
         if (game == null) {
             throw new GameNotFoundException(gameId);
