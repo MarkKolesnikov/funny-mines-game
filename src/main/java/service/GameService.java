@@ -1,6 +1,5 @@
 package service;
 
-import exceptions.GameNotFoundException;
 import exceptions.GameStatusException;
 import exceptions.NotEnoughPlayersException;
 import model.Game;
@@ -32,7 +31,7 @@ public class GameService {
     }
 
     public Game joinGame(UUID gameId, String login) {
-        Game game = gameRepository.findByIdOrThrow(gameId);
+        Game game = gameRepository.findById(gameId);
 
         validateGameIsWaiting(game);
 
@@ -43,7 +42,7 @@ public class GameService {
     }
 
     public Game startGame(UUID gameId) {
-        Game game = gameRepository.findByIdOrThrow(gameId);
+        Game game = gameRepository.findById(gameId);
 
         validateGameIsWaiting(game);
 

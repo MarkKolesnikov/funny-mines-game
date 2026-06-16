@@ -17,7 +17,7 @@ public class GameRepository {
         games.put(game.getId(), game);
     }
 
-    public Game findByIdOrThrow(UUID id) {
+    public Game findById(UUID id) {
         Game game = games.get(id);
         if (game == null) {
             throw new GameNotFoundException(id);
