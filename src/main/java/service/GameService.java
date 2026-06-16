@@ -34,13 +34,7 @@ public class GameService {
     public Game joinGame(UUID gameId, String login) {
         Game game = gameRepository.findByIdOrThrow(gameId); //дублирование - вынести в метод приватный сервиса
 
-        if (game == null) {
-            throw new GameNotFoundException(gameId);
-        }
-
-        if (game.getStatus() != GameStatus.WAITING) {
-            throw new GameStatusException(game.getStatus());
-        }
+        validateGameIsWaiting(game);
 
         User user = new User(login);
         game.addUser(user);
@@ -51,13 +45,7 @@ public class GameService {
     public Game startGame(UUID gameId) {
         Game game = gameRepository.findByIdOrThrow(gameId); //дублирование - вынести в метод приватный сервиса
 
-        if (game == null) {
-            throw new GameNotFoundException(gameId);
-        }
-
-        if (game.getStatus() != GameStatus.WAITING) {
-            throw new GameStatusException(game.getStatus());
-        }
+        validateGameIsWaiting(game);
 
         if (game.getUsers().size() < 2) {
             throw new NotEnoughPlayersException();
@@ -66,5 +54,17 @@ public class GameService {
         game.setStatus(GameStatus.IN_PROCESSING);
 
         return game;
+    }
+
+    private void validateGameStatus(Game game, GameStatus expectedStatus) {
+        if (game.getStatus() != expectedStatus) {
+            throw new GameStatusException(game.getStatus());
+        }
+    }
+
+    private void validateGameIsWaiting(Game game) {
+        if (game.getStatus() != GameStatus.WAITING) {
+            throw new GameStatusException(game.getStatus());
+        }
     }
 }
