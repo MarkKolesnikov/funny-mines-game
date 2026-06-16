@@ -32,7 +32,7 @@ public class GameService {
     }
 
     public Game joinGame(UUID gameId, String login) {
-        Game game = gameRepository.findByIdOrThrow(gameId); //дублирование - вынести в метод приватный сервиса
+        Game game = gameRepository.findByIdOrThrow(gameId);
 
         validateGameIsWaiting(game);
 
@@ -43,7 +43,7 @@ public class GameService {
     }
 
     public Game startGame(UUID gameId) {
-        Game game = gameRepository.findByIdOrThrow(gameId); //дублирование - вынести в метод приватный сервиса
+        Game game = gameRepository.findByIdOrThrow(gameId);
 
         validateGameIsWaiting(game);
 
@@ -52,12 +52,6 @@ public class GameService {
         game.setStatus(GameStatus.IN_PROCESSING);
 
         return game;
-    }
-
-    private void validateGameStatus(Game game, GameStatus expectedStatus) {
-        if (game.getStatus() != expectedStatus) {
-            throw new GameStatusException(game.getStatus());
-        }
     }
 
     private void validateGameIsWaiting(Game game) {
