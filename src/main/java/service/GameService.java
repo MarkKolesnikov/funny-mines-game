@@ -47,9 +47,7 @@ public class GameService {
 
         validateGameIsWaiting(game);
 
-        if (game.getUsers().size() < 2) {
-            throw new NotEnoughPlayersException();
-        }
+        validateUserSize(game);
 
         game.setStatus(GameStatus.IN_PROCESSING);
 
@@ -65,6 +63,12 @@ public class GameService {
     private void validateGameIsWaiting(Game game) {
         if (game.getStatus() != GameStatus.WAITING) {
             throw new GameStatusException(game.getStatus());
+        }
+    }
+
+    private void validateUserSize(Game game) {
+        if (game.getUsers().size() < 2) {
+            throw new NotEnoughPlayersException();
         }
     }
 }
