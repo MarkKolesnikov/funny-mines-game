@@ -17,5 +17,4 @@ public class User {
         this.id = UUID.randomUUID();
         this.login = login;
     }
-
 }

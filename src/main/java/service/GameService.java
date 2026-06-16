@@ -6,34 +6,33 @@ import exceptions.NotEnoughPlayersException;
 import model.Game;
 import model.GameStatus;
 import model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import store.GameStore;
+import store.GameRepository;
 
 import java.util.UUID;
 
 @Service
 public class GameService {
 
-    private final GameStore gameStore;
+    private final GameRepository gameRepository;
 
-    public GameService(GameStore store) {
-        this.gameStore = store;
+    public GameService(GameRepository store) {
+        this.gameRepository = store;
     }
 
     public Game createGame(String login) {
-        User user = new User(login);
+        User user = new User(login);  // Вынести в отдельно
 
         Game game = new Game();
         game.addUser(user);
 
-        gameStore.save(game);
+        gameRepository.save(game);
 
         return game;
     }
 
     public Game joinGame(UUID gameId, String login) {
-        Game game = gameStore.findById(gameId); //дублирование
+        Game game = gameRepository.findByIdOrThrow(gameId); //дублирование - вынести в метод приватный сервиса
 
         if (game == null) {
             throw new GameNotFoundException(gameId);
@@ -50,7 +49,7 @@ public class GameService {
     }
 
     public Game startGame(UUID gameId) {
-        Game game = gameStore.findById(gameId); //дублирование
+        Game game = gameRepository.findByIdOrThrow(gameId); //дублирование - вынести в метод приватный сервиса
 
         if (game == null) {
             throw new GameNotFoundException(gameId);
