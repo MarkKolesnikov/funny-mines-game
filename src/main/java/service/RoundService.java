@@ -19,12 +19,11 @@ public class RoundService {
 
     public Round createRound(UUID gameId) {
         Game game = gameRepository.findById(gameId);
+
         validateGameStatus(game);
 
 
-
     }
-
 
     //Если роли должны быть предсказуемыми для тестов,
     // случайность стоит делать отдельно, а не прямо внутри всей логики
@@ -34,7 +33,6 @@ public class RoundService {
         List<Role> roles = List.of(Role.GUESSER, Role.MINER, Role.HINT_GIVER);
 
         List<Role> shuffleRoles = shuffleRoles(roles);
-
 
 
     }

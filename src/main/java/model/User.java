@@ -13,7 +13,7 @@ public class User {
     @Setter
     private String login;
 
-    public User(String login) {
+    public User(final String login) {
         this.id = UUID.randomUUID();
         this.login = login;
     }

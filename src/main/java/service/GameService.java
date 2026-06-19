@@ -8,6 +8,7 @@ import model.User;
 import org.springframework.stereotype.Service;
 import store.GameRepository;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -20,7 +21,7 @@ public class GameService {
     }
 
     public Game createGame(String login) {
-        User user = new User(login);  // Вынести в отдельно
+        User user = createUser(login);// Вынести в отдельно
 
         Game game = new Game();
         game.addUser(user);
@@ -35,7 +36,7 @@ public class GameService {
 
         validateGameIsWaiting(game);
 
-        User user = new User(login);
+        User user = createUser(login);
         game.addUser(user);
 
         return game;
@@ -51,6 +52,10 @@ public class GameService {
         game.setStatus(GameStatus.IN_PROCESSING);
 
         return game;
+    }
+
+    private User createUser(String login) {
+        return new User(login);
     }
 
     private void validateGameIsWaiting(Game game) {
