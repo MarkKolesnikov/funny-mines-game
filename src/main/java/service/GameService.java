@@ -32,11 +32,12 @@ public class GameService {
 
     public Game joinGame(UUID gameId, String login) {
         Game game = gameRepository.findById(gameId)
-                        .orElseThrow(() -> new GameNotFoundException(gameId));
+                .orElseThrow(() -> new GameNotFoundException(gameId));
 
         validateGameIsWaiting(game);
 
         User user = createUser(login);
+        validateUserNotExist(game, user);
         game.addUser(user);
 
         gameRepository.save(game);
