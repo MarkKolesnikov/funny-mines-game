@@ -21,7 +21,7 @@ public class GameService {
     }
 
     public Game createGame(String login) {
-        User user = createUser(login);
+        User user = createUserForGame(login); // Вынести лучше в отдельный UserService
 
         Game game = new Game();
         game.addUser(user);
@@ -36,7 +36,7 @@ public class GameService {
 
         validateGameIsWaiting(game);
 
-        User user = createUser(login);
+        User user = createUserForGame(login);
         validateUserNotExist(game, user);
         game.addUser(user);
 
@@ -53,13 +53,12 @@ public class GameService {
         validateUserSize(game);
 
         game.setStatus(GameStatus.IN_PROCESSING);
-
         gameRepository.save(game);
 
         return game;
     }
 
-    private User createUser(String login) {
+    private User createUserForGame(String login) {
         return new User(login);
     }
 
