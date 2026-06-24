@@ -68,6 +68,14 @@ public class GameService {
         }
     }
 
+    private void validateUserNotExist(Game game, User user) {
+        if (game.getUsers()
+                .stream()
+                .anyMatch(u -> u.getLogin().equals(user.getLogin()))) {
+            throw new IllegalArgumentException("Пользователь уже в игре.");
+        }
+    }
+
     private void validateUserSize(Game game) {
         if (game.getUsers().size() < 2) {
             throw new NotEnoughPlayersException();
