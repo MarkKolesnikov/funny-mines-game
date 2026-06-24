@@ -4,7 +4,9 @@ import exceptions.GameNotFoundException;
 import model.Game;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,11 +19,7 @@ public class GameRepository {
         games.put(game.getId(), game);
     }
 
-    public Game findById(UUID id) {
-        Game game = games.get(id);
-        if (game == null) {
-            throw new GameNotFoundException(id);
-        }
-        return game;
+    public Optional<Game> findById(UUID id) {
+        return Optional.ofNullable(games.get(id));
     }
 }

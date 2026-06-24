@@ -1,5 +1,6 @@
 package service;
 
+import exceptions.GameNotFoundException;
 import exceptions.GameStatusException;
 import exceptions.NotEnoughPlayersException;
 import model.Game;
@@ -8,7 +9,6 @@ import model.User;
 import org.springframework.stereotype.Service;
 import store.GameRepository;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -16,14 +16,27 @@ public class GameService {
 
     private final GameRepository gameRepository;
 
-    public GameService(GameRepository store) {
-        this.gameRepository = store;
+    public GameService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
     }
 
     public Game createGame(String login) {
-        User user = createUser(login);// Вынести в отдельно
+        User user = createUser(login);
 
         Game game = new Game();
+        game.addUser(user);
+
+        gameRepository.save(game);
+        return game;
+    }
+
+    public Game joinGame(UUID gameId, String login) {
+        Game game = gameRepository.findById(gameId)
+                        .orElseThrow(() -> new GameNotFoundException(gameId));
+
+        validateGameIsWaiting(game);
+
+        User user = createUser(login);
         game.addUser(user);
 
         gameRepository.save(game);
@@ -31,25 +44,16 @@ public class GameService {
         return game;
     }
 
-    public Game joinGame(UUID gameId, String login) {
-        Game game = gameRepository.findById(gameId);
-
-        validateGameIsWaiting(game);
-
-        User user = createUser(login);
-        game.addUser(user);
-
-        return game;
-    }
-
     public Game startGame(UUID gameId) {
-        Game game = gameRepository.findById(gameId);
+        Game game = gameRepository.findById(gameId)
+                .orElseThrow(() -> new GameNotFoundException(gameId));
 
         validateGameIsWaiting(game);
-
         validateUserSize(game);
 
         game.setStatus(GameStatus.IN_PROCESSING);
+
+        gameRepository.save(game);
 
         return game;
     }

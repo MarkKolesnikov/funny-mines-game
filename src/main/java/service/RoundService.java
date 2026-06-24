@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Service
 public class RoundService {
 
-    GameRepository gameRepository;
+    private final GameRepository gameRepository;
 
     public RoundService(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
@@ -30,9 +30,10 @@ public class RoundService {
     //assgin приватный нужен
     private Map<UUID, Role> assignRoles(List<User> users) {
 
-        List<Role> roles = List.of(Role.GUESSER, Role.MINER, Role.HINT_GIVER);
+        List<Role> roles = new ArrayList<>(List.of(Role.GUESSER, Role.MINER, Role.HINT_GIVER));
 
-        List<Role> shuffleRoles = shuffleRoles(roles);
+        Collections.shuffle(roles);
+
 
 
     }
