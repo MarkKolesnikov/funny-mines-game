@@ -36,8 +36,6 @@ public class GameService {
     public Game joinGame(UUID gameId, String login) {
         Game game = findAndValidateWaitingGame(gameId);
 
-        validateGameIsWaiting(game);
-
         Player player = playerService.createPlayer(login);
         validatePlayerNotExist(game, player);
         game.addPlayer(player);
@@ -47,11 +45,9 @@ public class GameService {
 
     public Game startGame(UUID gameId) {
         Game game = findAndValidateWaitingGame(gameId);
-
-        validateGameIsWaiting(game);
         validatePlayerSize(game);
-
         game.setStatus(GameStatus.IN_PROCESSING);
+
         return save(game);
     }
 
@@ -69,14 +65,6 @@ public class GameService {
         }
 
         return game;
-    }
-
-
-
-    private void validateGameIsWaiting(Game game) {
-        if (game.getStatus() != GameStatus.WAITING) {
-            throw new GameStatusException(game.getStatus());
-        }
     }
 
     private void validatePlayerNotExist(Game game, Player player) {
