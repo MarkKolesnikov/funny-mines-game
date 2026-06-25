@@ -16,6 +16,7 @@ public class GameService {
 
     private final GameRepository gameRepository;
     private final PlayerService playerService;
+    private static final int MIN_PLAYERS_TO_START = 2;
 
     public GameService(GameRepository gameRepository, PlayerService playerService) {
         this.gameRepository = gameRepository;
@@ -29,13 +30,11 @@ public class GameService {
         Game game = new Game();
         game.addPlayer(player);
 
-        gameRepository.save(game);
-        return game;
+        return save(game);
     }
 
     public Game joinGame(UUID gameId, String login) {
-        Game game = gameRepository.findById(gameId)
-                .orElseThrow(() -> new GameNotFoundException(gameId));
+        Game game = findAndValidateWaitingGame(gameId);
 
         validateGameIsWaiting(game);
 
@@ -43,23 +42,36 @@ public class GameService {
         validatePlayerNotExist(game, player);
         game.addPlayer(player);
 
-        gameRepository.save(game);
-
-        return game;
+        return save(game);
     }
 
     public Game startGame(UUID gameId) {
-        Game game = gameRepository.findById(gameId)
-                .orElseThrow(() -> new GameNotFoundException(gameId));
+        Game game = findAndValidateWaitingGame(gameId);
 
         validateGameIsWaiting(game);
         validatePlayerSize(game);
 
         game.setStatus(GameStatus.IN_PROCESSING);
+        return save(game);
+    }
+
+    private Game save(Game game) {
         gameRepository.save(game);
+        return game;
+    }
+
+    private Game findAndValidateWaitingGame(UUID gameId) {
+        Game game = gameRepository.findById(gameId)
+                .orElseThrow(() -> new GameNotFoundException(gameId));
+
+        if (game.getStatus() != GameStatus.WAITING) {
+            throw new GameStatusException(game.getStatus());
+        }
 
         return game;
     }
+
+
 
     private void validateGameIsWaiting(Game game) {
         if (game.getStatus() != GameStatus.WAITING) {
@@ -70,13 +82,13 @@ public class GameService {
     private void validatePlayerNotExist(Game game, Player player) {
         if (game.getPlayers()
                 .stream()
-                .anyMatch(u -> u.getLogin().equals(player.getLogin()))) {
-            throw new IllegalArgumentException("Пользователь уже в игре.");
+                .anyMatch(p -> p.getLogin().equals(player.getLogin()))) {
+            throw new IllegalArgumentException("Игрок уже в игре.");
         }
     }
 
     private void validatePlayerSize(Game game) {
-        if (game.getPlayers().size() < 2) {
+        if (game.getPlayers().size() < MIN_PLAYERS_TO_START) {
             throw new NotEnoughPlayersException();
         }
     }
