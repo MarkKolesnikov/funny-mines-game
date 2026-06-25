@@ -6,14 +6,14 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter
-public class User {
+public class Player {
 
     private final UUID id;
 
     @Setter
     private String login;
 
-    public User(final String login) {
+    public Player(final String login) {
         this.id = UUID.randomUUID();
         this.login = login;
     }

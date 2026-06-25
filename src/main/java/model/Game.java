@@ -15,14 +15,14 @@ public class Game {
     @Setter
     private GameStatus status = WAITING;
 
-    private final List<User> users = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
 
     @Setter
     private Round currentRound;
 
     private final Map<UUID, Stats> leaderBoard = new HashMap<>();
 
-    public void addUser(User user) {
-        users.add(user);
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 }

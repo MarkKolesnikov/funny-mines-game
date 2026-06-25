@@ -5,7 +5,7 @@ import exceptions.GameStatusException;
 import exceptions.NotEnoughPlayersException;
 import model.Game;
 import model.GameStatus;
-import model.User;
+import model.Player;
 import org.springframework.stereotype.Service;
 import store.GameRepository;
 
@@ -15,16 +15,19 @@ import java.util.UUID;
 public class GameService {
 
     private final GameRepository gameRepository;
+    private final PlayerService playerService;
 
-    public GameService(GameRepository gameRepository) {
+    public GameService(GameRepository gameRepository, PlayerService playerService) {
         this.gameRepository = gameRepository;
+        this.playerService = playerService;
     }
 
+
     public Game createGame(String login) {
-        User user = createUserForGame(login); // Вынести лучше в отдельный UserService
+        Player player = playerService.createPlayer(login);
 
         Game game = new Game();
-        game.addUser(user);
+        game.addPlayer(player);
 
         gameRepository.save(game);
         return game;
@@ -36,9 +39,9 @@ public class GameService {
 
         validateGameIsWaiting(game);
 
-        User user = createUserForGame(login);
-        validateUserNotExist(game, user);
-        game.addUser(user);
+        Player player = playerService.createPlayer(login);
+        validatePlayerNotExist(game, player);
+        game.addPlayer(player);
 
         gameRepository.save(game);
 
@@ -50,16 +53,12 @@ public class GameService {
                 .orElseThrow(() -> new GameNotFoundException(gameId));
 
         validateGameIsWaiting(game);
-        validateUserSize(game);
+        validatePlayerSize(game);
 
         game.setStatus(GameStatus.IN_PROCESSING);
         gameRepository.save(game);
 
         return game;
-    }
-
-    private User createUserForGame(String login) {
-        return new User(login);
     }
 
     private void validateGameIsWaiting(Game game) {
@@ -68,16 +67,16 @@ public class GameService {
         }
     }
 
-    private void validateUserNotExist(Game game, User user) {
-        if (game.getUsers()
+    private void validatePlayerNotExist(Game game, Player player) {
+        if (game.getPlayers()
                 .stream()
-                .anyMatch(u -> u.getLogin().equals(user.getLogin()))) {
+                .anyMatch(u -> u.getLogin().equals(player.getLogin()))) {
             throw new IllegalArgumentException("Пользователь уже в игре.");
         }
     }
 
-    private void validateUserSize(Game game) {
-        if (game.getUsers().size() < 2) {
+    private void validatePlayerSize(Game game) {
+        if (game.getPlayers().size() < 2) {
             throw new NotEnoughPlayersException();
         }
     }

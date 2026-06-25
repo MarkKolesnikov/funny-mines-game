@@ -1,5 +1,6 @@
 package service;
 
+import exceptions.GameNotFoundException;
 import exceptions.GameStatusException;
 import model.*;
 import org.springframework.stereotype.Service;
@@ -18,22 +19,23 @@ public class RoundService {
     }
 
     public Round createRound(UUID gameId) {
-        Game game = gameRepository.findById(gameId);
+        Game game = gameRepository.findById(gameId)
+                        .orElseThrow(() -> new GameNotFoundException(gameId));
 
         validateGameStatus(game);
 
+        // TODO лучше присваивать роли через обычный индекс
 
     }
 
     //Если роли должны быть предсказуемыми для тестов,
     // случайность стоит делать отдельно, а не прямо внутри всей логики
     //assgin приватный нужен
-    private Map<UUID, Role> assignRoles(List<User> users) {
+    private Map<UUID, Role> assignRoles(List<Player> players) {
 
         List<Role> roles = new ArrayList<>(List.of(Role.GUESSER, Role.MINER, Role.HINT_GIVER));
 
         Collections.shuffle(roles);
-
 
 
     }
