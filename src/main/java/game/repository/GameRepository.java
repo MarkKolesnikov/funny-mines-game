@@ -1,10 +1,8 @@
-package store;
+package game.repository;
 
-import exceptions.GameNotFoundException;
-import model.Game;
+import game.domain.Game;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.Option;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;

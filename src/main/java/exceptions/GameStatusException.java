@@ -1,6 +1,6 @@
 package exceptions;
 
-import model.GameStatus;
+import game.domain.GameStatus;
 
 public class GameStatusException extends RuntimeException {
 

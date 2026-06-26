@@ -1,4 +1,4 @@
-package model;
+package player.domain;
 
 import lombok.Getter;
 import lombok.Setter;

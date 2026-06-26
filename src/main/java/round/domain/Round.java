@@ -1,8 +1,9 @@
-package model;
+package round.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import mine.domain.Mine;
 
 import java.util.*;
 
@@ -10,7 +11,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class Round {
 
-    private final UUID id = UUID.randomUUID();
     private final int roundNumber;
     private final String secretWord;
     private final Map<UUID, Role> roles;
@@ -27,6 +27,11 @@ public class Round {
     private final List<Mine> mines = new ArrayList<>();
 
     public void addMine(Mine mine) {
+
+        if (status == RoundStatus.ROUND_FINISHED) {
+            throw new IllegalStateException("Нельзя добавлять мины после завершения раунда");
+        }
         mines.add(mine);
     }
+
 }

@@ -1,13 +1,14 @@
-package service;
+package game.service;
 
 import exceptions.GameNotFoundException;
 import exceptions.GameStatusException;
 import exceptions.NotEnoughPlayersException;
-import model.Game;
-import model.GameStatus;
-import model.Player;
+import game.domain.Game;
+import game.domain.GameStatus;
+import player.domain.Player;
 import org.springframework.stereotype.Service;
-import store.GameRepository;
+import player.service.PlayerService;
+import game.repository.GameRepository;
 
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ public class GameService {
     }
 
 
-    public Game createGame(String login) {
+    public Game createGame(String login) { // ВЫНЕСТИ В ОТДЕЛЬНУЮ ФАБРИКУ
         Player player = playerService.createPlayer(login);
 
         Game game = new Game();
@@ -37,7 +38,7 @@ public class GameService {
         Game game = findAndValidateWaitingGame(gameId);
 
         Player player = playerService.createPlayer(login);
-        validatePlayerNotExist(game, player);
+        checkNoDuplicatePlayer(game, player);
         game.addPlayer(player);
 
         return save(game);
@@ -67,7 +68,7 @@ public class GameService {
         return game;
     }
 
-    private void validatePlayerNotExist(Game game, Player player) {
+    private void checkNoDuplicatePlayer(Game game, Player player) {
         if (game.getPlayers()
                 .stream()
                 .anyMatch(p -> p.getLogin().equals(player.getLogin()))) {

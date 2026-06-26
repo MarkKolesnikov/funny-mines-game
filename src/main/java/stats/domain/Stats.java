@@ -1,4 +1,4 @@
-package model;
+package stats.domain;
 
 import lombok.Getter;
 import lombok.Setter;

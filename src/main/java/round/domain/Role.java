@@ -1,4 +1,4 @@
-package model;
+package round.domain;
 
 public enum Role {
 

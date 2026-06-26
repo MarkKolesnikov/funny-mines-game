@@ -1,6 +1,6 @@
-package service;
+package player.service;
 
-import model.Player;
+import player.domain.Player;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,11 +1,14 @@
-package model;
+package game.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import player.domain.Player;
+import round.domain.Round;
+import stats.domain.Stats;
 
 import java.util.*;
 
-import static model.GameStatus.WAITING;
+import static game.domain.GameStatus.WAITING;
 
 @Getter
 public class Game {

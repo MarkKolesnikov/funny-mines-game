@@ -1,4 +1,4 @@
-package model;
+package game.domain;
 
 public enum GameStatus {
 
