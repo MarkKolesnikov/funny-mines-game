@@ -5,6 +5,7 @@ import exceptions.GameStatusException;
 import exceptions.NotEnoughPlayersException;
 import game.domain.Game;
 import game.domain.GameStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import player.domain.Player;
 import org.springframework.stereotype.Service;
 import player.service.PlayerService;
@@ -19,6 +20,7 @@ public class GameService {
     private final PlayerService playerService;
     private static final int MIN_PLAYERS_TO_START = 2;
 
+    @Autowired
     public GameService(GameRepository gameRepository, PlayerService playerService) {
         this.gameRepository = gameRepository;
         this.playerService = playerService;
