@@ -10,7 +10,6 @@ import java.util.*;
 public class Round {
 
     private final UUID gameId;
-    private final int roundNumber;
     private final String secretWord;
     // Храним роли как Map<PlayerId, RoleType>
     private final Map<UUID, Role> roles;
@@ -26,9 +25,8 @@ public class Round {
 
     private final List<Mine> mines = new ArrayList<>();
 
-    private Round(UUID gameId, int roundNumber, String secretWord, Map<UUID, Role> roles) {
-        this.gameId = gameId;
-        this.roundNumber = roundNumber;
+    private Round(UUID gameId, String secretWord, Map<UUID, Role> roles) {
+        this.gameId = gameId;;
         this.secretWord = secretWord;
         // ВАЖНО: Создаем неизменяемую копию карты, чтобы никто не мог изменить роли снаружи
         this.roles = Map.copyOf(roles);

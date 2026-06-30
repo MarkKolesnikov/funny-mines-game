@@ -15,6 +15,8 @@ public class Game {
 
     private final UUID id = UUID.randomUUID();
 
+    private int nextGuesserIndex;
+
     @Setter
     private GameStatus status = WAITING;
 
@@ -27,5 +29,11 @@ public class Game {
 
     public void addPlayer(Player player) {
         players.add(player);
+    }
+
+    public UUID getNextGuesserId() {
+        UUID guesserId = players.get(nextGuesserIndex).getId();
+        nextGuesserIndex = (nextGuesserIndex + 1) % players.size();
+        return guesserId;
     }
 }

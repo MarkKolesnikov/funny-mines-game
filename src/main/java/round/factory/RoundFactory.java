@@ -12,13 +12,13 @@ import java.util.*;
 @Component
 public class RoundFactory {
 
-    private  final WordService wordService;
+    private final WordService wordService;
 
     public RoundFactory(WordService wordService) {
         this.wordService = wordService;
     }
 
-    private Round createRound(Game game) {
+    public Round createRound(Game game) {
         if(game.getPlayers() == null || game.getPlayers().isEmpty()) {
             throw new IllegalArgumentException("В игре нет игроков для распределения ролей");
         }
@@ -29,6 +29,7 @@ public class RoundFactory {
         int roundNumber = calculateRoundNumber(game);
         Map<UUID, Role> roles = assignRoles(players);
 
+        Round round = new Round(game.getId(), roundNumber, );
     }
 
 
@@ -45,7 +46,7 @@ public class RoundFactory {
 
         roles.put(players.get(0).getId(), Role.GUESSER);
 
-        if (players.size() > 1) {
+        if (players.size() >= 2) {
             roles.put(players.get(1).getId(), Role.HINT_GIVER);
         }
 

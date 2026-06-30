@@ -22,8 +22,7 @@ public class RoundService {
     }
 
     public Round startRound(Game game) {
-
-
+        roundFactory.createRound()
     }
 
     private void validateGameStatus(Game game) {
