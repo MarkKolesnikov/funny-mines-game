@@ -26,7 +26,6 @@ public class GameService {
         this.playerService = playerService;
     }
 
-
     public Game createGame(String login) { // ВЫНЕСТИ В ОТДЕЛЬНУЮ ФАБРИКУ
         Player player = playerService.createPlayer(login);
 

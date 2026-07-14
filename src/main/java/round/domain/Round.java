@@ -6,30 +6,36 @@ import mine.domain.Mine;
 
 import java.util.*;
 
-@Getter
 public class Round {
 
+    @Getter
     private final UUID gameId;
+
+    @Getter
     private final String secretWord;
-    // Храним роли как Map<PlayerId, RoleType>
     private final Map<UUID, Role> roles;
 
-    @Setter
-    private UUID guesserId;
-    @Setter
-    private UUID hintGiverId;
-    @Setter
+    @Getter
     private RoundStatus status = RoundStatus.PLACING_MINES;
+
     @Setter
     private RoundResult result;
 
     private final List<Mine> mines = new ArrayList<>();
 
     private Round(UUID gameId, String secretWord, Map<UUID, Role> roles) {
-        this.gameId = gameId;;
-        this.secretWord = secretWord;
-        // ВАЖНО: Создаем неизменяемую копию карты, чтобы никто не мог изменить роли снаружи
-        this.roles = Map.copyOf(roles);
+        this.gameId = Objects.requireNonNull(gameId, "gameId обязателен");
+        this.secretWord = Objects.requireNonNull(secretWord, "secretWord обязателен");
+        this.roles = Map.copyOf(
+                Objects.requireNonNull(roles, "roles обязательны")
+        );
+        if (this.roles.isEmpty()) {
+            throw new IllegalArgumentException("В раунде должны быть роли хотя бы для одного игрока");
+        }
+    }
+
+    public static Round of(UUID gameId, String secretWord, Map<UUID, Role> roles) {
+        return new Round(gameId, secretWord, roles);
     }
 
     public void addMine(Mine mine) {
@@ -39,9 +45,4 @@ public class Round {
         }
         mines.add(mine);
     }
-
-    public Role getRole(UUID playerId) {
-        return roles.get(playerId);
-    }
-
 }

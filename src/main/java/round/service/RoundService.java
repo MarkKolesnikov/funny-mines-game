@@ -12,17 +12,16 @@ import round.factory.RoundFactory;
 @Service
 public class RoundService {
 
-    private final GameService gameService;
     private final RoundFactory roundFactory;
 
     @Autowired
     public RoundService(GameService gameService, RoundFactory roundFactory) {
-        this.gameService = gameService;
         this.roundFactory = roundFactory;
     }
 
     public Round startRound(Game game) {
-        roundFactory.createRound()
+        validateGameStatus(game);
+        return roundFactory.createRound(game);
     }
 
     private void validateGameStatus(Game game) {

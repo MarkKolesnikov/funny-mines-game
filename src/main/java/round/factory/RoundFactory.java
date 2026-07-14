@@ -19,46 +19,29 @@ public class RoundFactory {
     }
 
     public Round createRound(Game game) {
-        if(game.getPlayers() == null || game.getPlayers().isEmpty()) {
-            throw new IllegalArgumentException("В игре нет игроков для распределения ролей");
-        }
 
         List<Player> players = new ArrayList<>(game.getPlayers());
         Collections.shuffle(players);
 
-        int roundNumber = calculateRoundNumber(game);
         Map<UUID, Role> roles = assignRoles(players);
 
-        Round round = new Round(game.getId(), roundNumber, );
+        String secretWord = wordService.generateWord();
+
+        return Round.of(game.getId(), secretWord, roles);
     }
 
 
-    private static Map<UUID, Role> assignRoles(List<Player> players) {
+    private Map<UUID, Role> assignRoles(List<Player> players) {
+
         Map<UUID, Role> roles = new HashMap<>();
-
-        if (players.isEmpty()) {
-            return roles;
-        }
-
         for (Player player : players) {
             roles.put(player.getId(), Role.MINER);
         }
-
         roles.put(players.get(0).getId(), Role.GUESSER);
-
         if (players.size() >= 2) {
             roles.put(players.get(1).getId(), Role.HINT_GIVER);
         }
-
         return roles;
-    }
-
-
-    private int calculateRoundNumber(Game game) {
-        if(game.getCurrentRound() == null) {
-            return 1;
-        }
-        return game.getCurrentRound().getRoundNumber() + 1;
     }
 }
 
