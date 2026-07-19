@@ -15,6 +15,7 @@ public class Game {
 
     private final UUID id = UUID.randomUUID();
 
+    @Setter
     private int nextGuesserIndex;
 
     @Setter
@@ -36,4 +37,5 @@ public class Game {
         nextGuesserIndex = (nextGuesserIndex + 1) % players.size();
         return guesserId;
     }
+
 }

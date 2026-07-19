@@ -5,9 +5,14 @@ import game.domain.Game;
 import game.domain.GameStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import player.domain.Player;
 import round.domain.Round;
 import game.service.GameService;
 import round.factory.RoundFactory;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class RoundService {
@@ -19,10 +24,13 @@ public class RoundService {
         this.roundFactory = roundFactory;
     }
 
+
     public Round startRound(Game game) {
         validateGameStatus(game);
         return roundFactory.createRound(game);
     }
+
+
 
     private void validateGameStatus(Game game) {
         if (game.getStatus() != GameStatus.IN_PROCESSING) {

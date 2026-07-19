@@ -10,7 +10,7 @@ import secret_word.service.WordService;
 import java.util.*;
 
 @Component
-public class RoundFactory {
+public class RoundFactory implements RoleAssignmentService {
 
     private final WordService wordService;
 
@@ -31,18 +31,31 @@ public class RoundFactory {
     }
 
 
-    private Map<UUID, Role> assignRoles(List<Player> players) {
+    @Override
+    public Map<UUID, Role> assignRoles(List<Player> players) {
+        if (players == null || players.isEmpty()) {
+            return Map.of();
+        }
 
         Map<UUID, Role> roles = new HashMap<>();
-        for (Player player : players) {
-            roles.put(player.getId(), Role.MINER);
+
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            if (player == null) {
+                throw new IllegalArgumentException("Игрок под индексом " + i + " равен null");
+            }
+
+            Role role = switch (i) {
+                case 0 -> Role.GUESSER;
+                case 1 -> Role.HINT_GIVER;
+                default -> Role.MINER;
+            };
+            roles.put(player.getId(), role);
         }
-        roles.put(players.get(0).getId(), Role.GUESSER);
-        if (players.size() >= 2) {
-            roles.put(players.get(1).getId(), Role.HINT_GIVER);
-        }
+
         return roles;
     }
+
 }
 
 
